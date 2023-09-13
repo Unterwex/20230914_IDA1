@@ -1,0 +1,179 @@
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 30000 entries, 0 to 29999
+Data columns (total 15 columns):
+ #   Column                      Non-Null Count  Dtype 
+---  ------                      --------------  ----- 
+ 0   Age                         30000 non-null  int64 
+ 1   Employment_type             30000 non-null  object
+ 2   Weighting_factor            30000 non-null  int64 
+ 3   Level_of_education          30000 non-null  object
+ 4   Schooling_period            30000 non-null  int64 
+ 5   Marital_status              30000 non-null  object
+ 6   Employment_area             30000 non-null  object
+ 7   Partnership                 30000 non-null  object
+ 8   Ethnicity                   30000 non-null  object
+ 9   Gender                      30000 non-null  object
+ 10  Gains_on_financial_assets   30000 non-null  int64 
+ 11  Losses_on_financial_assets  30000 non-null  int64 
+ 12  Weekly_working_time         30000 non-null  int64 
+ 13  Country_of_birth            30000 non-null  object
+ 14  Income                      30000 non-null  object
+dtypes: int64(6), object(9)
+memory usage: 3.4+ MB
+   Age    Employment_type  ...  Country_of_birth  Income
+0   39          State-gov  ...     United-States   <=50K
+1   50   Self-emp-not-inc  ...     United-States   <=50K
+2   38            Private  ...     United-States   <=50K
+3   53            Private  ...     United-States   <=50K
+4   28            Private  ...              Cuba   <=50K
+
+[5 rows x 15 columns]
+
+
+Logistic Regression:
+
+Optimal model and parameters:
+Best parameters:  {'C': 1.0, 'max_iter': 100, 'penalty': 'l1', 'random_state': 5, 'solver': 'liblinear'}
+0.84 accuracy with a standard deviation of 0.01
+Score on all learning data:  0.8424
+Time for learning logistic regression model: 9.459920167922974 seconds
+
+Confusion matrix: 
+[[703  48]
+ [101 148]]
+True negative:  703
+False positive:  48
+False negative:  101
+True positive:  148
+
+Classification report:
+              precision    recall  f1-score   support
+
+       <=50K       0.87      0.94      0.90       751
+        >50K       0.76      0.59      0.67       249
+
+    accuracy                           0.85      1000
+   macro avg       0.81      0.77      0.78      1000
+weighted avg       0.84      0.85      0.84      1000
+
+
+
+Random Forest:
+
+Optimal model and parameters:
+Best parameters:  {'max_depth': 30, 'min_samples_leaf': 6, 'min_samples_split': 4, 'n_estimators': 50}
+0.83 accuracy with a standard deviation of 0.02
+Score on all learning data:  0.8532
+Time for learning random forest model: 167.41627740859985 seconds
+
+Confusion matrix: 
+[[709  42]
+ [104 145]]
+True negative:  709
+False positive:  42
+False negative:  104
+True positive:  145
+
+Classification report:
+              precision    recall  f1-score   support
+
+       <=50K       0.87      0.94      0.91       751
+        >50K       0.78      0.58      0.67       249
+
+    accuracy                           0.85      1000
+   macro avg       0.82      0.76      0.79      1000
+weighted avg       0.85      0.85      0.85      1000
+
+Most important features:
+ Marital_status_ Married-civ-spouse              1.917257e-01
+Schooling_period                                1.341430e-01
+Age                                             1.113049e-01
+Partnership_ Husband                            1.008674e-01
+Marital_status_ Never-married                   5.855965e-02
+Gains_on_financial_assets                       4.964324e-02
+Employment_area_ Exec-managerial                4.481652e-02
+Weekly_working_time                             4.465752e-02
+Partnership_ Wife                               2.154260e-02
+Partnership_ Own-child                          1.915151e-02
+Level_of_education_ Bachelors                   1.772366e-02
+Gender_ Female                                  1.616145e-02
+Partnership_ Not-in-family                      1.342447e-02
+Employment_type_ Self-emp-inc                   1.138514e-02
+Marital_status_ Divorced                        1.106143e-02
+Gender_ Male                                    1.072644e-02
+Level_of_education_ Masters                     1.024334e-02
+Level_of_education_ Prof-school                 1.005438e-02
+Employment_area_ Prof-specialty                 9.891272e-03
+Level_of_education_ HS-grad                     8.720705e-03
+Employment_type_ Private                        8.272798e-03
+Partnership_ Unmarried                          8.054915e-03
+Employment_type_ Self-emp-not-inc               7.831214e-03
+Employment_area_ Sales                          7.522037e-03
+Employment_area_ Other-service                  5.826340e-03
+Level_of_education_ Some-college                5.374527e-03
+Level_of_education_ Doctorate                   5.130391e-03
+Employment_area_ Craft-repair                   4.729194e-03
+Employment_area_ Farming-fishing                4.551308e-03
+Employment_area_ Adm-clerical                   3.653283e-03
+Employment_area_ Tech-support                   3.631397e-03
+Employment_area_ Transport-moving               3.432466e-03
+Employment_area_ Machine-op-inspct              3.239852e-03
+Level_of_education_ 7th-8th                     3.163376e-03
+Ethnicity_ White                                3.102616e-03
+Employment_type_ Local-gov                      2.811192e-03
+Employment_type_ Federal-gov                    2.704700e-03
+Employment_area_ Handlers-cleaners              2.234134e-03
+Level_of_education_ Assoc-acdm                  2.038257e-03
+Ethnicity_ Black                                1.950016e-03
+Level_of_education_ 9th                         1.864751e-03
+Level_of_education_ Assoc-voc                   1.796004e-03
+Level_of_education_ 11th                        1.783739e-03
+Employment_type_ State-gov                      1.576675e-03
+Marital_status_ Widowed                         1.210861e-03
+Country_of_birth_ United-States                 1.127761e-03
+Level_of_education_ 10th                        1.095754e-03
+Ethnicity_ Asian-Pac-Islander                   1.086445e-03
+Country_of_birth_ Mexico                        1.059816e-03
+Marital_status_ Separated                       7.065532e-04
+Employment_area_ Protective-serv                7.028979e-04
+Marital_status_ Married-spouse-absent           5.618223e-04
+Partnership_ Other-relative                     2.618095e-04
+Level_of_education_ 12th                        1.057992e-04
+Level_of_education_ 5th-6th                     9.276707e-07
+Losses_on_financial_assets                      0.000000e+00
+Country_of_birth_ Outlying-US(Guam-USVI-etc)    0.000000e+00
+dtype: float64
+
+
+Decision Tree:
+
+Optimal model and parameters:
+Best parameters:  {'criterion': 'gini', 'max_depth': None, 'max_features': 'sqrt', 'min_samples_leaf': 6, 'min_samples_split': 4, 'random_state': 5, 'splitter': 'random'}
+0.82 accuracy with a standard deviation of 0.02
+Score on all learning data:  0.8348
+Time for learning logistic regression model: 20.60531497001648 seconds
+
+Confusion matrix: 
+[[707  44]
+ [114 135]]
+True negative:  707
+False positive:  44
+False negative:  114
+True positive:  135
+
+Classification report:
+              precision    recall  f1-score   support
+
+       <=50K       0.86      0.94      0.90       751
+        >50K       0.75      0.54      0.63       249
+
+    accuracy                           0.84      1000
+   macro avg       0.81      0.74      0.77      1000
+weighted avg       0.83      0.84      0.83      1000
+
+
+Warning (from warnings module):
+  File "C:\Users\VeraC\OneDrive - Universität Potsdam\master\Machine_Learning_1\Project\sklearn_models\VS_program.py", line 275
+    plt.figure(figsize=(8, 6))
+RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+Overall program time: 246.28817105293274 seconds
