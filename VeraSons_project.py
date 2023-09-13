@@ -110,15 +110,15 @@ def vis_data(data, income):
         q=data[name].astype(str).str.count('\?').sum() #question marks in columns
         print(name,": ",q)"""
     
-        
-    for name,values in data.iteritems():
+    #### plot ratio to income for all columns ####
+    """for name,values in data.iteritems():
         crosstab = pd.crosstab(data[name], income)
         crosstab.plot(kind='bar')
         plt.title("Ratio "+name+" - Income", fontsize=26)
         plt.xlabel(name, fontsize=20)
         plt.xticks(fontsize=16)
         plt.yticks(fontsize=16)
-        plt.legend(fontsize=16)
+        plt.legend(fontsize=16)"""
 
 
 #################### Split Data #######################
@@ -272,8 +272,10 @@ def evaluate_model(clf, X_learn, y_learn, X_test, y_test, model_type):
     plt.legend(fontsize=16)"""
 
 
+################# Compare Models #######################
 def compare_model_evaluation(models, X_test, y_test, model_types):
 
+    #### ROC Curves of >50K ####
     plt.figure(figsize=(8, 6))
     for i in range(len(models)):
         probabilities = models[i].predict_proba(X_test)
@@ -293,6 +295,7 @@ def compare_model_evaluation(models, X_test, y_test, model_types):
     plt.plot()
 
 
+    #### Precision-Recall Curves of >50K ####
     plt.figure(figsize=(8, 6))
     for i in range(len(models)):
         probabilities = models[i].predict_proba(X_test)
@@ -313,7 +316,7 @@ def compare_model_evaluation(models, X_test, y_test, model_types):
 
 
 
-
+############## predict Income for 25K ################
 def predict_25K(clf, X_apply, model_type):
     y_apply = clf.predict(X_apply)
     #print("Predicted values:\n",y_apply)
@@ -321,6 +324,7 @@ def predict_25K(clf, X_apply, model_type):
     poor_count = np.count_nonzero(y_apply == -1)
     rich_count = np.count_nonzero(y_apply == 1)
 
+    """# plot distribution for each model
     plt.figure()
     y_classes = ["<=50K", ">50K"]
     compare = [poor_count,rich_count]
@@ -335,18 +339,19 @@ def predict_25K(clf, X_apply, model_type):
     plt.ylabel('Number of people', fontsize=20)
     plt.title(model_type+' prediction of income distribution of 25000 people', fontsize=26)
     plt.xticks(fontsize=16)
-    plt.yticks(fontsize=16)
+    plt.yticks(fontsize=16)"""
 
 
     return y_apply, poor_count, rich_count
 
 
+############## Main Program #################
 def main():
     start_time = time.time()
 
     feature_names= ['Age', 'Employment_type', 'Weighting_factor', 'Level_of_education', 'Schooling_period', 'Marital_status', 'Employment_area', 'Partnership', 'Ethnicity', 'Gender', 'Gains_on_financial_assets', 'Losses_on_financial_assets', 'Weekly_working_time', 'Country_of_birth', 'Income']
 
-
+    ############## Preprocessing ###############
     data = preprocess_data(feature_names)
 
 
@@ -465,14 +470,13 @@ def main():
     
     
     compare_model_evaluation(models, X_test, y_test, model_types)
-    
+
+    #### Plot predictions to bar plots ####
     y_classes = ("<=50K", ">50K")
     compare = {f"Logistic regression (Acc: {lr_score:.3f})":(lr_y_pred_poor, lr_y_pred_rich), f"Random Forest (Acc: {rf_score:.3f})":(rf_y_pred_poor, rf_y_pred_rich), f"Decision Tree (Acc: {dt_score:.3f})":(dt_y_pred_poor, dt_y_pred_rich)}
 
     
     comp_income = pd.DataFrame(compare, index=y_classes)
-
-    # plot the dataframe
     ax = comp_income.plot(kind='bar', figsize=(10, 6), rot=0, color=['orange', 'lightblue', 'brown'], fontsize=20)
 
     #write values into bar
@@ -505,18 +509,13 @@ def main():
     rf = len(X_apply) - rf_lr_dt - lr_rf - dt_rf
     dt = len(X_apply) - rf_lr_dt - dt_rf - lr_dt
 
+    #### plot similar predictions into venn diagram ####
     plt.figure()
-    #venn = venn3(subsets=(lr,rf,lr_rf,dt,lr_dt,dt_rf,rf_lr_dt), 
-                 #set_labels=('Logistische Regression', 'Random Forest', 'Decision Tree'))
-    #plt.title("Similarity in predictions of all models", fontsize=26)
-    venn = venn3(subsets=(1, 1, 1, 1, 1, 1, 1), set_labels=('Logistische Regression', 'Random Forest', 'Decision Tree'))
+    venn = venn3(subsets=(1, 1, 1, 1, 1, 1, 1), set_labels=('Logistic', 'Random Forest', 'Decision Tree'))
 
-    # Entferne den automatischen Text für die Mengengrößen
     venn.get_label_by_id('100').set_text(lr)
     venn.get_label_by_id('010').set_text(rf)
     venn.get_label_by_id('001').set_text(dt)
-
-    # Beschrifte die Schnittmengen
     venn.get_label_by_id('110').set_text(lr_rf)
     venn.get_label_by_id('101').set_text(lr_dt)
     venn.get_label_by_id('011').set_text(dt_rf)
